@@ -1,0 +1,101 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      thermoData;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+/*
+
+species
+(
+ li
+ vapor
+ ar
+);
+
+li
+{
+    Gamma   1.382 ;
+    Pinf     2.028e8 ;
+    Ener_Ref   -1177788.0;
+    Cv         3141.0;
+    Wmol       6.94e-3;
+    Covol       0.0;
+}
+
+vapor
+{
+    Gamma       1.47;
+    Pinf       0.0;
+    Ener_Ref    2077616;
+    Cv          955.0;
+    Wmol       18.0e-3;
+    Covol       0.0;
+}
+
+ar
+{
+    Gamma       1.6;
+    Pinf        0.0;
+    Ener_Ref    0.0;
+    Cv          312.0;
+    Wmol        39.9e-3;
+    Covol       0.0;
+};
+
+*/
+
+//      use this for water and air
+species
+(
+ water
+ vapor
+ air
+);
+
+water
+{
+    Gamma   1.19 ;
+    Pinf     7.028e8 ;
+    Ener_Ref   -1177788.0;
+    Cv         3610.0;
+    Wmol       18.0e-3;
+    Covol       6.61e-4;
+}
+
+vapor
+{
+    Gamma       1.47;
+    Pinf       0.0;
+    Ener_Ref    2077616;
+    Cv          955.0;
+    Wmol       18.0e-3;
+    Covol       0.0;
+}
+
+air
+{
+    Gamma       1.4;
+    Pinf        0.0;
+    Ener_Ref    0.0;
+    Cv          719.0;
+    Wmol        29.0e-3;
+    Covol       0.0;
+};
+
+
+
+
+
+// ************************************************************************* //

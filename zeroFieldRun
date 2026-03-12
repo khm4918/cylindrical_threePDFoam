@@ -1,0 +1,62 @@
+# find and save important directories
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export FOAMTPD_DIR="$HOME/OpenFOAM/threePhaseDensityFoam2D_KM/"
+
+#run blockMesh in case file
+cd $SCRIPT_DIR
+blockMesh
+
+#replace 0 folder with base fields
+cd $SCRIPT_DIR
+rm -r 0
+cd $FOAMTPD_DIR
+cp -r base_fields_dimensionless $SCRIPT_DIR/0
+
+#update threePhaseDensityFoam2D with new createFields.H template
+cd $FOAMTPD_DIR
+#rm createFields.H
+cp Templates/cylindrical_rmi/s031225_KAS3_base.H createFields.H
+
+#wmake threePhaseDensityFoam2D to apply changes
+cd $FOAMTPD_DIR
+wclean
+wmake
+
+#auto run case on single core
+#cd $SCRIPT_DIR
+#threePhaseDensityFoam2D
+
+# copy constant and system folders to iPF
+#cd $SCRIPT_DIR
+#cp -r constant $IPFOAM_DIR/constant
+#cp -r system $IPFOAM_DIR/system
+
+# remove old createFields file and replace with case template
+#cd $IPFOAM_DIR
+#rm createFields.H
+#cp History/Validation/cyl_rmi/cav_supp/diffuse_testing.H createFields.H
+
+# open iPF and generate fields
+#cd $IPFOAM_DIR
+#wclean
+#wmake
+#initialProfileFoam
+
+# copy iPF output to case directory
+#rm -r $SCRIPT_DIR/0
+#cp -r 0 $SCRIPT_DIR/0
+
+# change naming convention to case file
+#cd $SCRIPT_DIR/0
+#mv alpha1 alpha.fluid
+#mv rho1 rho.fluid
+#mv rho2 rho.gas
+
+# open 0 files and change object notation
+#sed -i 's/\(object[[:space:]]*\).*;/\1alpha.fluid;/' alpha.fluid
+#sed -i 's/\(object[[:space:]]*\).*;/\1rho.fluid;/' rho.fluid
+#sed -i 's/\(object[[:space:]]*\).*;/\1rho.gas;/' rho.gas
+
+# clean iPF by removing constant, system and 0 folders
+#cd $IPFOAM_DIR
+#rm -r constant system 0

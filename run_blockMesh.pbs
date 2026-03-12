@@ -1,0 +1,48 @@
+#!/bin/sh
+#PBS -l walltime=23:59:00
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=64gb
+#PBS -j oe
+
+# Change to the directory the job was submitted from
+cd $PBS_O_WORKDIR
+
+# Load required modules
+module purge						# Clean modules
+module load tools/prod     				# Load required tools for other packages
+module load Python/3.11.3-GCCcore-12.3.0		# For generation of blockMeshDict
+module load OpenFOAM/9-foss-2023a       		# FOSS toolchain
+
+# Ensure your user python packages are visible
+export PYTHONUSERBASE=$HOME/.local
+export PYTHONPATH=$HOME/.local/lib/python3.11/site-packages:$PYTHONPATH
+export PATH=$HOME/.local/bin:$PATH
+
+# Run python script to generate blockMeshDict
+python blockMeshDict_gen.py
+
+# Source OpenFOAM environment
+source $FOAM_BASH
+
+# Source blastFoam environment
+source $HOME/OpenFOAM/blastfoam/etc/bashrc
+
+# Ensure INTELMPI is used rather than a dummy
+# export WM_MPLB=INTELMPI
+
+# Sanity check
+echo "OpenFOAM environment loaded from: $WM_PROJECT_DIR"
+echo "blastFoam binary located at: $(which blastFoam)"
+echo "MPI library: $WM_MPLIB"
+mpirun --version | head -n 1
+
+# Add BlastFOAM binaries to path
+#export PATH=$HOME/OpenFOAM/blastfoam/applications/bin:$PATH
+
+# (Optional) Set environment variable for OpenMPI if needed
+# export I_MPI_PMI_LIBRARY=/lib64/libpmi.so
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# Create mesh
+runApplication blockMesh
