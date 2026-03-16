@@ -8,11 +8,11 @@ cd ${0%/*} || exit 1    # run from this directory
 paraFoam -builtin -touch
 
 # -- Create mesh
-#runApplication blockMesh
+runApplication blockMesh
 
 # -- Set fields
 #./iPFrun
-./zeroFieldRun
+bash ./zeroFieldRun
 
 # -- Add internal patch
 #runApplication addEmptyPatch internalPatch internal -overwrite
@@ -20,11 +20,14 @@ paraFoam -builtin -touch
 # -- Decompose the case
 runApplication decomposePar
 
-# -- run the calc
+# -- Run the calc
 runParallel threePhaseDensityFoam2D
 
+# -- Remove old 0 folder
+rm -r 0
+
 # -- Reconstruct the case
-runApplication reconstructPar
+runApplication reconstructPar -withZero
 
 # -- Remove individual processor folders
 rm -r processor*

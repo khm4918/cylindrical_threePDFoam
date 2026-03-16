@@ -51,7 +51,7 @@ paraFoam -builtin -touch
 #runApplication blockMesh
 
 # Set initial fields
-./zeroFieldRun
+bash ./zeroFieldRun
 
 # -- Add internal patch
 #runApplication addEmptyPatch internalPatch internal -overwrite

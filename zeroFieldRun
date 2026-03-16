@@ -3,24 +3,28 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export FOAMTPD_DIR="$HOME/OpenFOAM/threePhaseDensityFoam2D_KM/"
 
 #run blockMesh in case file
-cd $SCRIPT_DIR
-blockMesh
+#cd $SCRIPT_DIR
+#blockMesh
+#echo "blockMesh complete"
 
 #replace 0 folder with base fields
 cd $SCRIPT_DIR
 rm -r 0
 cd $FOAMTPD_DIR
 cp -r base_fields_dimensionless $SCRIPT_DIR/0
+echo "Replaced 0 folder with base fields"
 
 #update threePhaseDensityFoam2D with new createFields.H template
 cd $FOAMTPD_DIR
 #rm createFields.H
 cp Templates/cylindrical_rmi/s031225_KAS3_base.H createFields.H
+echo "Copied selected template into createFields.H"
 
 #wmake threePhaseDensityFoam2D to apply changes
 cd $FOAMTPD_DIR
 wclean
 wmake
+echo "Solver constructed with selected field template"
 
 #auto run case on single core
 #cd $SCRIPT_DIR
