@@ -30,9 +30,6 @@ echo $WM_MPLIB
 # Source tutorial run functions
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
-# Remove original 0 folder
-rm -r 0
-
 # Reconstruct case
 runApplication reconstructPar -withZero
 
