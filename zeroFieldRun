@@ -34,5 +34,5 @@ threePhaseDensityFoam2D
 
 #now update controlDict to run entire case
 cd $SCRIPT_DIR
-sed -i 's/^\([[:space:]]*endTime[[:space:]]*\).*/\11e-5;/' system/controlDict
+sed -i 's/^\([[:space:]]*endTime[[:space:]]*\).*/\11.5e-5;/' system/controlDict
 sed -i 's/^\([[:space:]]*writeInterval[[:space:]]*\).*/\176e-9;/' system/controlDict
