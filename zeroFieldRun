@@ -17,7 +17,7 @@ echo "Replaced 0 folder with base fields"
 #update threePhaseDensityFoam2D with new createFields.H template
 cd $FOAMTPD_DIR
 #rm createFields.H
-cp Templates/cylindrical_rmi/s031225_KAS3_base.H createFields.H
+cp Templates/cylindrical_rmi/s031225_KAS4_supp.H createFields.H
 echo "Copied selected template into createFields.H"
 
 #wmake threePhaseDensityFoam2D to apply changes
@@ -26,6 +26,13 @@ wclean
 wmake
 echo "Solver constructed with selected field template"
 
-#auto run case on single core
-#cd $SCRIPT_DIR
-#threePhaseDensityFoam2D
+#run first time step on single core to ensure correct field setting
+cd $SCRIPT_DIR
+sed -i 's/^\([[:space:]]*endTime[[:space:]]*\).*/\11e-10;/' system/controlDict
+sed -i 's/^\([[:space:]]*writeInterval[[:space:]]*\).*/\11e-10;/' system/controlDict
+threePhaseDensityFoam2D
+
+#now update controlDict to run entire case
+cd $SCRIPT_DIR
+sed -i 's/^\([[:space:]]*endTime[[:space:]]*\).*/\11e-5;/' system/controlDict
+sed -i 's/^\([[:space:]]*writeInterval[[:space:]]*\).*/\176e-9;/' system/controlDict
