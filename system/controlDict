@@ -20,7 +20,7 @@ libs ("libROUNDSchemes.so");
 
 application     blastFoam;
 
-startFrom       startTime;
+startFrom       latestTime;
 
 startTime       0;
 
